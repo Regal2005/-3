@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ultimate Responsive Love Page ❤️</title>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        overflow: hidden;
+        background: linear-gradient(135deg, #ff9acb, #ff6fa8, #ffb3d9);
+        background-size: 300% 300%;
+        animation: bgMove 10s ease infinite;
+        font-family: "Arial", sans-serif;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        text-align: center;
+    }
+
+    @keyframes bgMove {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    /* Bouton responsive */
+    #loveBtn {
+        background-color: #ff1a75;
+        color: white;
+        padding: 15px 40px;
+        font-size: clamp(18px, 4vw, 26px);
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        animation: heartbeat 1.3s infinite;
+        box-shadow: 0 0 20px #ff1a75;
+        z-index: 200;
+    }
+
+    @keyframes heartbeat {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+
+    #loveBtn:hover {
+        background-color: #ff005c;
+        transform: scale(1.1);
+    }
+
+    /* Message néon RESPONSIVE */
+    #loveMessage {
+        font-size: clamp(40px, 10vw, 90px);
+        color: white;
+        font-weight: bold;
+        opacity: 0;
+        transition: 1.5s ease-in-out;
+        text-shadow:
+            0 0 20px #ff1a75,
+            0 0 40px #ff1a75,
+            0 0 80px #ff1a75;
+        transform: scale(0.6);
+        z-index: 300;
+        margin-top: 20px;
+        max-width: 90%;
+        line-height: 1.2;
+    }
+
+    .show {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    /* Fleurs */
+    .flower {
+        position: absolute;
+        top: -60px;
+        font-size: clamp(20px, 6vw, 45px);
+        animation: fall 8s linear forwards;
+        z-index: 100;
+        pointer-events: none;
+    }
+
+    @keyframes fall {
+        0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+        100% { transform: translateY(120vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Cœurs scintillants */
+    .heart {
+        position: absolute;
+        color: #ff0066;
+        font-size: clamp(15px, 4vw, 30px);
+        animation: float 6s linear infinite;
+        opacity: 0.6;
+        z-index: 50;
+        pointer-events: none;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0) scale(1); opacity: 0.7; }
+        100% { transform: translateY(-900px) scale(1.6); opacity: 0; }
+    }
+
+    /* Explosion de coeurs */
+    .burstHeart {
+        position: absolute;
+        font-size: clamp(20px, 6vw, 45px);
+        animation: burst 0.8s ease-out forwards;
+        color: #ff1a75;
+        z-index: 400;
+        pointer-events: none;
+    }
+
+    @keyframes burst {
+        0% { transform: scale(0); opacity: 1; }
+        100% { transform: scale(3); opacity: 0; }
+    }
+
+</style>
+</head>
+<body>
+
+<audio id="music" src="https://www.fesliyanstudios.com/play-mp3/387" preload="auto"></audio>
+
+<button id="loveBtn" onclick="showLove()">❤️ Clique ici ❤️</button>
+
+<div id="loveMessage">I LOVE YOU 💖</div>
+
+<script>
+function showLove() {
+    const msg = document.getElementById("loveMessage");
+    msg.classList.add("show");
+
+    // Musique (compatible iPhone car déclenchée par clic)
+    const music = document.getElementById("music");
+    music.play().catch(()=>{});
+
+    // Cœurs scintillants
+    for (let i = 0; i < 20; i++) {
+        let heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.textContent = "💗";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.bottom = Math.random() * 200 + "px";
+        heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 6000);
+    }
+
+    // Fleurs
+    const flowers = ["🌸","🌺","🌼","🌷","🌹","💮"];
+    for (let i = 0; i < 30; i++) {
+        let flower = document.createElement("div");
+        flower.classList.add("flower");
+        flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+        flower.style.left = Math.random() * window.innerWidth + "px";
+        flower.style.animationDuration = (5 + Math.random() * 4) + "s";
+        document.body.appendChild(flower);
+        setTimeout(() => flower.remove(), 9000);
+    }
+}
+
+// Explosion de cœurs où l’utilisateur clique (fonctionne mobile + PC)
+document.addEventListener("click", (e) => {
+    let boom = document.createElement("div");
+    boom.classList.add("burstHeart");
+    boom.textContent = "💖";
+    boom.style.left = e.clientX + "px";
+    boom.style.top = e.clientY + "px";
+    document.body.appendChild(boom);
+    setTimeout(() => boom.remove(), 800);
+});
+</script>
+
+</body>
+</html>
